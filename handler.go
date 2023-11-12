@@ -18,7 +18,7 @@ func PostBalasan(w http.ResponseWriter, r *http.Request) {
 	var msg model.IteungMessage
 	var resp atmessage.Response
 	json.NewDecoder(r.Body).Decode(&msg)
-	link := "https://medium.com/@befous/tugas-chapt-7-whatsauth-free-2fa-otp-notif-whatsapp-gateway-api-gratis-bf797160a7cc" + " dan " + "https://youtu.be/9bXr-fGZV9w"
+	link := "https://medium.com/@befous/tugas-chapt-7-whatsauth-free-2fa-otp-notif-whatsapp-gateway-api-gratis-bf797160a7cc"
 	if r.Header.Get("Secret") == os.Getenv("SECRET") {
 		if msg.Message == "loc" || msg.Message == "Loc" || msg.Message == "lokasi" || msg.LiveLoc {
 			location, err := ReverseGeocode(msg.Latitude, msg.Longitude)
