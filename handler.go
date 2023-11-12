@@ -3,7 +3,6 @@ package webhook
 import (
 	"encoding/json"
 	"fmt"
-	"math/rand"
 	"net/http"
 	"os"
 	"strconv"
@@ -27,7 +26,7 @@ func PostBalasan(w http.ResponseWriter, r *http.Request) {
 				location = "Unknown Location"
 			}
 
-			reply := fmt.Sprintf("Aku tebak kamu pasti lagi di %s \n Koordinatenya : %s - %s\n Cara Penggunaan WhatsAuth Ada di link dibawah ini"+
+			reply := fmt.Sprintf("Hai aku tebak kamu pasti lagi di %s \n Koordinatenya : %s - %s\n Cara Penggunaan WhatsAuth Ada di link dibawah ini"+
 				"yaa kak %s\n", location,
 				strconv.Itoa(int(msg.Longitude)), strconv.Itoa(int(msg.Latitude)), link)
 			dt := &wa.TextMessage{
@@ -37,17 +36,10 @@ func PostBalasan(w http.ResponseWriter, r *http.Request) {
 			}
 			resp, _ = atapi.PostStructWithToken[atmessage.Response]("Token", os.Getenv("TOKEN"), dt, "https://api.wa.my.id/api/send/message/text")
 		} else {
-			randm := []string{
-				"Hai salam kenal" + msg.Alias_name + "\nIbrohimnya lagi gaadaa \n aku chat bot salam kenall yaaaa \n Cara penggunaan WhatsAuth ada di link berikut ini ya kak...\n" + link,
-				"IHHH jangan SPAAM berisik tau giseu lagi tidur",
-				"Gabut kah???",
-				"Ibrohimnya lagi ga mau chatan",
-				"Fun fact agama di dunia ini ada sekitar 4000",
-			}
 			dt := &wa.TextMessage{
 				To:       msg.Phone_number,
 				IsGroup:  false,
-				Messages: GetRandomString(randm),
+				Messages: "Hai " + msg.Alias_name + "\nIbrohim nya lagi gaadaa \n aku chat bot salam kenall yaaaa \n Cara penggunaan WhatsAuth ada di link berikut ini ya kak...\n" + link,
 			}
 			resp, _ = atapi.PostStructWithToken[atmessage.Response]("Token", os.Getenv("TOKEN"), dt, "https://api.wa.my.id/api/send/message/text")
 		}
@@ -96,7 +88,7 @@ func Liveloc(w http.ResponseWriter, r *http.Request) {
 		location = "Unknown Location"
 	}
 
-	reply := fmt.Sprintf("Hai hai haiii kamu pasti lagi di %s \n Koordinatenya : %s - %s\n", location,
+	reply := fmt.Sprintf("Hai aku tebak kamu pasti lagi di %s \n Koordinatenya : %s - %s\n", location,
 		strconv.Itoa(int(msg.Longitude)), strconv.Itoa(int(msg.Latitude)))
 
 	if r.Header.Get("Secret") == os.Getenv("SECRET") {
@@ -110,9 +102,4 @@ func Liveloc(w http.ResponseWriter, r *http.Request) {
 		resp.Response = "Secret Salah"
 	}
 	fmt.Fprintf(w, resp.Response)
-}
-
-func GetRandomString(strings []string) string {
-	randomIndex := rand.Intn(len(strings))
-	return strings[randomIndex]
 }
